@@ -22,6 +22,15 @@ class Fib extends Component {
     const seenIndexes = await axios.get("/api/values/all");
     this.setState({ seenIndexes: seenIndexes.data });
   }
+
+  handleSubmit = async (event) => {
+      event.preventDefault();
+      await axios.post('api/values', {
+          index: this.state.index
+      })
+      this.setState({index: ''})
+  };
+
   renderSeenIndexes() {
     return this.state.seeIndexes.map(({ number }) => number).join(", ");
   }
@@ -40,7 +49,7 @@ class Fib extends Component {
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <label>Enter your Index:</label>
           <input
             value={this.state.index}
@@ -56,4 +65,6 @@ class Fib extends Component {
       </div>
     );
   }
-}
+};
+
+export default Fib;
